@@ -11,3 +11,8 @@
 9. Г. Саттер, А. Александреску - Стандарты программирования на С++. 101 правило и рекомендация
 10. А. Александреску - Современное проектирование на C++
 11. С. Макконнелл - Совершенный код
+
+# Ссылки
+
+1. [Refactoring Guru](https://refactoring.guru/ru/design-patterns/catalog)
+2. [What is an Allocator?](https://medium.com/@vgasparyan1995/what-is-an-allocator-c8df15a93ed)
