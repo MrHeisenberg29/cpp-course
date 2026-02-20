@@ -1,20 +1,29 @@
 ﻿#include <iostream>
 #include <string>
 #include <vector>
+#include <boost/lexical_cast.hpp>
 
-std::vector<int> split_ip(const std::string& str) 
+std::vector<int> split_ip(const std::string& str)
 {
     std::vector<int> result;
     result.reserve(4);
     size_t start = 0;
-    size_t end = str.find('.'); 
-    while (end != std::string::npos)
-    {
-        result.push_back(std::stoi(str.substr(start, end - start)));
-        start = end + 1; 
-        end = str.find('.', start); 
+    size_t end = str.find('.');
+    try
+    { 
+        while (end != std::string::npos)
+        {
+                result.push_back(boost::lexical_cast<int>(str.substr(start, end - start)));
+                start = end + 1;
+                end = str.find('.', start);
+        }
+        result.push_back(boost::lexical_cast<int>(str.substr(start)));
     }
-    result.push_back(std::stoi(str.substr(start)));
+    catch (const boost::bad_lexical_cast& e)
+    {
+        return {};
+    }
+   
     return result;
 }
 
@@ -108,6 +117,7 @@ int main()
         {
             std::cout << ip[0] << "." << ip[1] << "." << ip[2] << "." << ip[3] << "\n";
         }
+
     }
 
     return 0;
