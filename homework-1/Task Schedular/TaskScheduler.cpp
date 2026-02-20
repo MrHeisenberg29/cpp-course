@@ -10,14 +10,14 @@ struct NodeTask
 	
 };
 
-class Queu
+class Queue
 {
 public:
-	Queu() : quantity_of_tasks(0), head(nullptr), tail(nullptr) {}
+	Queue() : quantity_of_tasks(0), head(nullptr), tail(nullptr) {}
 	int quantity_of_tasks;
 	NodeTask* head;
 	NodeTask* tail;
-	~Queu()
+	~Queue()
 	{
 		NodeTask* curr = head;
 		while (curr != nullptr)
@@ -78,7 +78,7 @@ public:
 		{
 			if (curr->task.id == id)
 			{
-				*out = curr->task;
+				if (out) *out = curr->task;
 				return true;
 			}
 			curr = curr->Next;
@@ -103,8 +103,8 @@ public:
 class TaskSchedulerImpl
 {
 public:
-	Queu All_Tasks;
-	Queu Ready_Tasks;
+	Queue All_Tasks;
+	Queue Ready_Tasks;
 	void add_task(Task t)
 	{
 		
@@ -189,13 +189,13 @@ struct TaskScheduler
 
 extern "C"
 {	
-	TaskScheduler* Create_Task_Scheduler()
+	TaskScheduler* TaskScheduler_Create()
 	{
 		TaskScheduler* TS = new TaskScheduler();
 		TS->impl = new TaskSchedulerImpl();
 		return TS;
 	}
-	void Destroy_Task_Scheduler(TaskScheduler* TS)
+	void TaskScheduler_Destroy(TaskScheduler* TS)
 	{
 		if (TS)
 		{
@@ -203,15 +203,15 @@ extern "C"
 			delete TS;
 		}
 	}
-	void add_task_to_Scheduler(Task T,TaskScheduler* TS)
+	void TaskScheduler_AddTask(TaskScheduler* TS, Task T)
 	{
 		if (TS && TS->impl) TS->impl->add_task(T);
 	}
-	void delete_task_from_Scheduler(int T_id, TaskScheduler* TS)
+	void TaskScheduler_DeleteTask(TaskScheduler* TS, int T_id )
 	{
 		if (TS && TS->impl) TS->impl->delete_task(T_id);
 	}
-	int get_info_about_task(int T_id, TaskScheduler* TS, Task* out)
+	int TaskScheduler_GetTaskInfo(TaskScheduler* TS, int T_id, Task* out)
 	{
 		if (TS && TS->impl)
 		{	
@@ -221,20 +221,18 @@ extern "C"
 		}
 		return 0;
 	}
-	int get_quantity_of_active_tasks(TaskScheduler* TS)
+	int TaskScheduler_GetActiveQuan(TaskScheduler* TS)
 	{
 		if (TS && TS->impl) return TS->impl->get_quantity_of_active();
 		return 0;
 	}
-	void update_time_in_TS(TaskScheduler* TS, int current_time)
+	void TaskScheduler_Update(TaskScheduler* TS, int current_time)
 	{
 		if (TS && TS->impl) TS->impl->update_scheduler(current_time);
 	}
-	int get_ready_tasks(TaskScheduler* TS, int quan, Task* out)
+	int TaskScheduler_GetReadyTasks(TaskScheduler* TS, int quan, Task* out)
 	{
 		if (TS && TS->impl) return TS->impl->pop_ready(out, quan);
 		return 0;
 	}
 	}
-
-	

@@ -13,14 +13,14 @@ extern "C" {
 	} Task;
 
 	typedef struct TaskScheduler TaskScheduler;
-	TaskScheduler* Create_Task_Scheduler();
-	void Destroy_Task_Scheduler(TaskScheduler* TS);
-	void add_task_to_Scheduler(Task T, TaskScheduler* TS);
-	void delete_task_from_Scheduler(int T_id, TaskScheduler* TS);
-	int get_info_about_task(int T_id, TaskScheduler* TS, Task* out);
-	int get_quantity_of_active_tasks(TaskScheduler* TS);
-	void update_time_in_TS(TaskScheduler* TS, int current_time);
-	int get_ready_tasks(TaskScheduler* TS, int quan, Task* out);
+	TaskScheduler* TaskScheduler_Create();
+	void TaskScheduler_Destroy(TaskScheduler* TS);
+	void TaskScheduler_AddTask(TaskScheduler* TS,Task T);
+	void TaskScheduler_DeleteTask(TaskScheduler* TS, int T_id);
+	int TaskScheduler_GetTaskInfo(TaskScheduler* TS,int T_id, Task* out);
+	int TaskScheduler_GetActiveQuan(TaskScheduler* TS);
+	void TaskScheduler_Update(TaskScheduler* TS, int current_time);
+	int TaskScheduler_GetReadyTasks(TaskScheduler* TS, int quan, Task* out);
 
 #ifdef __cplusplus
 }

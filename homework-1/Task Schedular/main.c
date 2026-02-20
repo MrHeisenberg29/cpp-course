@@ -17,46 +17,47 @@ void print_task_batch(Task* tasks, int quantity) {
 
 int main(void)
 {
-    TaskScheduler* TS = Create_Task_Scheduler();
+    TaskScheduler* TS = TaskScheduler_Create();
     Task t1 = { 1, "A", 1000, 0 };   
     Task t2 = { 2, "B", 500, 0 };      
     Task t3 = { 3, "C", 0, 0 };      
     Task t4 = { 4, "D", 0, 2500 }; 
     Task t5 = { 5, "E", 0, 3000 };
-    add_task_to_Scheduler(t1,TS);
-    add_task_to_Scheduler(t2, TS);
-    add_task_to_Scheduler(t3, TS);
-    add_task_to_Scheduler(t4, TS);
-
+    TaskScheduler_AddTask(TS,t1);
+    TaskScheduler_AddTask(TS, t2);
+    TaskScheduler_AddTask(TS, t3);
+    TaskScheduler_AddTask(TS, t4);
+    TaskScheduler_AddTask(TS, t5);
+  
     
     Task ready_batch[BATCH_SIZE];
     int quan = 0;
 
-    update_time_in_TS(TS, 0);
-    quan = get_ready_tasks(TS, BATCH_SIZE, ready_batch);
+    TaskScheduler_Update(TS, 0);
+    quan = TaskScheduler_GetReadyTasks(TS, BATCH_SIZE, ready_batch);
     print_task_batch(ready_batch, quan);
 
-    update_time_in_TS(TS, 500);
-    quan = get_ready_tasks(TS, BATCH_SIZE, ready_batch);
+    TaskScheduler_Update(TS, 500);
+    quan = TaskScheduler_GetReadyTasks(TS, BATCH_SIZE, ready_batch);
     print_task_batch(ready_batch, quan);
 
-    delete_task_from_Scheduler(2, TS);
-    printf("Active: %d\n\n", get_quantity_of_active_tasks(TS));
+    TaskScheduler_DeleteTask(TS, 2);
+    printf("Active: %d\n\n", TaskScheduler_GetActiveQuan(TS));
 
-    update_time_in_TS(TS, 1500);
-    quan = get_ready_tasks(TS, BATCH_SIZE, ready_batch);
+    TaskScheduler_Update(TS, 1500);
+    quan = TaskScheduler_GetReadyTasks(TS, BATCH_SIZE, ready_batch);
     print_task_batch(ready_batch, quan);
 
-    update_time_in_TS(TS, 2500);
-    quan = get_ready_tasks(TS, BATCH_SIZE, ready_batch);
+    TaskScheduler_Update(TS, 2500);
+    quan = TaskScheduler_GetReadyTasks(TS, BATCH_SIZE, ready_batch);
     print_task_batch(ready_batch, quan);
 
-    update_time_in_TS(TS, 3000);
-    quan = get_ready_tasks(TS, BATCH_SIZE, ready_batch);
+    TaskScheduler_Update(TS, 3000);
+    quan = TaskScheduler_GetReadyTasks(TS, BATCH_SIZE, ready_batch);
     print_task_batch(ready_batch, quan);
 
     Task test_for_info;
-    if (get_info_about_task(4, TS, &test_for_info)==1)
+    if (TaskScheduler_GetTaskInfo(TS, 4, &test_for_info)==1)
     {
         printf("Error: Task 4 is not deleted\n");
     }
@@ -64,9 +65,9 @@ int main(void)
     {
         printf("Task 4 is deleted\n");
     }
-    printf("Active tasks: %d\n", get_quantity_of_active_tasks(TS));
+    printf("Active tasks: %d\n", TaskScheduler_GetActiveQuan(TS));
 
-    Destroy_Task_Scheduler(TS);
+    TaskScheduler_Destroy(TS);
     
     printf("\nFinish\n");
     return 0;
